@@ -7,3 +7,12 @@
     border: 2px solid #fff;
     border-radius: 6px;
   }
+
+  .card .back {
+    position: absolute;
+    top : 0;
+    left: 0
+  }
+  .card.flip .back {
+    transform : rotateY(90deg)
+  }

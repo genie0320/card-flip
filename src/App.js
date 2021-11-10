@@ -33,6 +33,11 @@ function App() {
     // console.log("sel01 : ", selection01)
   }
 
+  // Card flip
+  const flip = (card) => {
+
+  }
+
   // compare cards
   useEffect(() => {
     if (selection01 && selection02) {
@@ -51,7 +56,9 @@ function App() {
         resetCard()
       } else {
         console.log('not match', turns)
-        resetCard()
+        setTimeout(() => {
+          resetCard()
+        }, 1000);
       }
 
       console.log(cards, turns)
@@ -70,7 +77,19 @@ function App() {
       <button onClick={shuffle}>New Game</button>
       <div className="card-spread">
         {cards.map(card => (
-          <SingleCard key={card.id} card={card} choiceCard={choiceCard} />
+          <SingleCard
+            key={card.id}
+            card={card}
+            choiceCard={choiceCard}
+
+            // Match처럼 따로 값을 관리하려 하였으나, flip의 경우 기존의 selection 값을 이용하는 것이 효율적
+            // 클릭을 하는 순간, chiceCard() > setSelection 이 되고, 
+            // useEffect()가 움직이면서 
+            // rendering이 다시 이루어진다. 
+            // 중요한 것은... SingleCard 로 넘어가면서 flip을 prop으로 가지고 간다는 점.
+            // singleCard에는 hooks를 설정해놓지 않았기 때문에, 지금으로선 fix된 값을 넘겨주는 것이 간편.
+            flip={card === selection01 || card === selection02 || card.matched == true}
+          />
         ))}
       </div>
     </div>
