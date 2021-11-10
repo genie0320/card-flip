@@ -19,12 +19,14 @@ function App() {
   const [selection01, setSelection01] = useState(null)
   const [selection02, setSelection02] = useState(null)
   const [wait, setWait] = useState(false)
+  // wait 이전에 선택했던 카드들에 대한 처리가 끝나기 전에 사용자가 바바박 선택하는 걸 방지.
 
   const shuffle = () => {
     const cardList = [...cardImgs, ...cardImgs]
-      // .sort() => Math.random() 의 값이 0보다 작으면 swap, 크면 keep.
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }))
+    setSelection01(null)
+    setSelection02(null)
     console.clear()
     setCards(cardList)
     setTurns(0)
@@ -33,12 +35,6 @@ function App() {
   // User choice
   const choiceCard = (cardInfo) => {
     selection01 ? setSelection02(cardInfo) : setSelection01(cardInfo)
-    // console.log("sel01 : ", selection01)
-  }
-
-  // Card flip
-  const flip = (card) => {
-
   }
 
   // compare cards
@@ -88,12 +84,7 @@ function App() {
             card={card}
             choiceCard={choiceCard}
 
-            // Match처럼 따로 값을 관리하려 하였으나, flip의 경우 기존의 selection 값을 이용하는 것이 효율적
-            // 클릭을 하는 순간, chiceCard() > setSelection 이 되고, 
-            // useEffect()가 움직이면서 
-            // rendering이 다시 이루어진다. 
-            // 중요한 것은... SingleCard 로 넘어가면서 flip을 prop으로 가지고 간다는 점.
-            // singleCard에는 hooks를 설정해놓지 않았기 때문에, 지금으로선 fix된 값을 넘겨주는 것이 간편.
+            // prop을 이렇게 처리해서 넘겨줄 수 있다는 것도 인상적이었다.
             flip={card === selection01 || card === selection02 || card.matched == true}
             wait={wait}
           />
