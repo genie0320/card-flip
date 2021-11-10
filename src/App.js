@@ -18,6 +18,7 @@ function App() {
   const [turns, setTurns] = useState(0)
   const [selection01, setSelection01] = useState(null)
   const [selection02, setSelection02] = useState(null)
+  const [wait, setWait] = useState(false)
 
   const shuffle = () => {
     const cardList = [...cardImgs, ...cardImgs]
@@ -43,7 +44,7 @@ function App() {
   // compare cards
   useEffect(() => {
     if (selection01 && selection02) {
-
+      setWait(true)
       if (selection01.src === selection02.src) {
         setCards(prevCards => {
           return prevCards.map(card => {
@@ -72,6 +73,7 @@ function App() {
     setSelection01(null)
     setSelection02(null)
     setTurns(turns => turns + 1)
+    setWait(false)
   }
   return (
     <div className="App">
@@ -93,6 +95,7 @@ function App() {
             // 중요한 것은... SingleCard 로 넘어가면서 flip을 prop으로 가지고 간다는 점.
             // singleCard에는 hooks를 설정해놓지 않았기 때문에, 지금으로선 fix된 값을 넘겨주는 것이 간편.
             flip={card === selection01 || card === selection02 || card.matched == true}
+            wait={wait}
           />
         ))}
       </div>

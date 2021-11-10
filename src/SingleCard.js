@@ -1,9 +1,11 @@
 import React from 'react'
 import './SingleCard.css'
 
-export default function SingleCard({ card, choiceCard, flip }) {
+export default function SingleCard({ card, choiceCard, flip, wait }) {
     const cardClick = () => {
-        choiceCard(card)
+        if (!wait) {
+            choiceCard(card)
+        }
     }
     return (
         <>
