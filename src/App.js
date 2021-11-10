@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import SingleCard from './SingleCard';
 
+// Todo : 전부 매칭이 이루어진 후에는 'Well done!'이라는 레이어팝업을 강력하게 넣어주고 싶다!
+
 const cardImgs = [
   { "src": "/img/helmet-1.png", "matched": "false" },
   { "src": "/img/potion-1.png", "matched": "false" },
@@ -24,7 +26,7 @@ function App() {
       .map((card) => ({ ...card, id: Math.random() }))
     console.clear()
     setCards(cardList)
-    setTurns(1)
+    setTurns(0)
   }
 
   // User choice
@@ -75,6 +77,8 @@ function App() {
     <div className="App">
       <h1 className="genieTest">genitest</h1>
       <button onClick={shuffle}>New Game</button>
+
+      <p className="turns"> Your turns : {turns} </p>
       <div className="card-spread">
         {cards.map(card => (
           <SingleCard
